@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Pengajuan extends Model
+class Setting extends Model
 {
     //
 }
