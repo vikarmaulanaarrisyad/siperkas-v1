@@ -13,7 +13,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
         </div>
 
@@ -25,7 +25,9 @@
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
+                        <p>
+                            Dashboard
+                        </p>
                     </a>
                 </li>
 
@@ -33,7 +35,7 @@
                 <li class="nav-header">MASTER DATA</li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.jenis-berkas.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p>Jenis Berkas</p>
                     </a>
@@ -119,6 +121,16 @@
                         <i class="nav-icon fas fa-cog"></i>
                         <p>Settings</p>
                     </a>
+                </li>
+
+                <li class="nav-item mb-4">
+                    <form action="{{ route('logout') }}" method="POST" id="logout-form">
+                        @csrf
+                        <button type="submit" class="nav-link text-left" style="border: none; width: 100%;">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </nav>

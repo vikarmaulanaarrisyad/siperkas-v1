@@ -108,7 +108,7 @@
             let password = $('.password').val();
 
             if (!auth) {
-                toastr.info('Emsil wajib diisi');
+                toastr.info('Email wajib diisi');
                 return;
             }
 
