@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\UserRepository;
 
@@ -45,5 +46,16 @@ class UserService
     public function delete($id)
     {
         return $this->repository->delete($id);
+    }
+
+    public function resetPassword($id)
+    {
+        $password = Str::random(8);
+
+        $this->repository->update($id, [
+            'password' => Hash::make($password)
+        ]);
+
+        return $password;
     }
 }

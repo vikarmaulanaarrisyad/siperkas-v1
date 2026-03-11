@@ -30,6 +30,81 @@ function togglePassword(fieldId, button) {
     }
 }
 
+function resetPassword(url, name) {
+    Swal.fire({
+        title: `Reset Password ${name}?`,
+        text: "Password baru akan dibuat otomatis.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Reset",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Memproses...",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            $.post(url, {
+                _token: $('meta[name="csrf-token"]').attr("content"),
+            })
+                .done(function (response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Password Berhasil Direset",
+                        html: `
+                        <p>Password baru untuk <b>${name}</b></p>
+
+                        <div class="input-group mt-2">
+                            <input type="text" id="newPassword" class="form-control text-center"
+                            value="${response.password}" readonly>
+
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" onclick="copyPassword()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <small class="text-muted">
+                            Simpan password ini sebelum menutup.
+                        </small>
+                    `,
+                        confirmButtonText: "Tutup",
+                    });
+                })
+                .fail(function (xhr) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal",
+                        text: xhr.responseJSON?.message || "Terjadi kesalahan",
+                    });
+                });
+        }
+    });
+}
+
+function copyPassword() {
+    const password = document.getElementById("newPassword");
+
+    password.select();
+    password.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(password.value);
+
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Password berhasil disalin",
+        showConfirmButton: false,
+        timer: 1500,
+    });
+}
+
 function resetForm(selector) {
     $(selector)[0].reset();
 

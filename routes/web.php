@@ -22,4 +22,6 @@ Route::prefix('admin')
         Route::resource('/jenis-berkas', JenisBerkasController::class)->except('edit', 'create');
         Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
         Route::resource('/users', UserController::class)->except('edit', 'create');
+        Route::post('users/{id}/reset-password', [UserController::class, 'resetPassword'])
+            ->name('users.reset-password');
     });

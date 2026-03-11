@@ -25,6 +25,7 @@ class UserController extends Controller
     public function data()
     {
         $query =  $this->service->getAll();
+
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('aksi', function ($q) {
@@ -33,20 +34,35 @@ class UserController extends Controller
 
                 // tidak bisa hapus diri sendiri
                 if ($userLogin->id == $q->id) {
-                    return '';
+                    return '
+                    <button onclick="resetPassword(`' . route('admin.users.reset-password', $q->id) . '`, `' . $q->name . '`)"
+                    class="btn btn-sm btn-warning" title="Reset Password">
+                    <i class="fas fa-key"></i>
+                    </button>
+                ';
                 }
 
                 // tidak bisa hapus user yang memiliki role admin
                 if ($q->hasRole('admin')) {
-                    return '';
+                    return '
+                    <button onclick="resetPassword(`' . route('admin.users.reset-password', $q->id) . '`, `' . $q->name . '`)"
+                    class="btn btn-sm btn-warning" title="Reset Password">
+                    <i class="fas fa-key"></i>
+                    </button>
+                ';
                 }
 
                 return '
-            <button onclick="deleteData(`' . route('admin.users.destroy', $q->id) . '`, `' . $q->name . '`)"
-            class="btn btn-sm btn-danger" title="Delete">
-            <i class="fas fa-trash-alt"></i>
-            </button>
-        ';
+                <button onclick="resetPassword(`' . route('admin.users.reset-password', $q->id) . '`, `' . $q->name . '`)"
+                class="btn btn-sm btn-warning" title="Reset Password">
+                <i class="fas fa-key"></i>
+                </button>
+
+                <button onclick="deleteData(`' . route('admin.users.destroy', $q->id) . '`, `' . $q->name . '`)"
+                class="btn btn-sm btn-danger" title="Delete">
+                <i class="fas fa-trash-alt"></i>
+                </button>
+            ';
             })
             ->escapeColumns([])
             ->make(true);
@@ -94,6 +110,17 @@ class UserController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Data berhasil dihapus'
+        ]);
+    }
+
+    public function resetPassword($id)
+    {
+        $password = $this->service->resetPassword($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Password berhasil direset',
+            'password' => $password
         ]);
     }
 }
