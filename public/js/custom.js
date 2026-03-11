@@ -15,6 +15,21 @@ function preview(target, image) {
     $(target).attr("src", window.URL.createObjectURL(image)).show();
 }
 
+function togglePassword(fieldId, button) {
+    let input = document.getElementById(fieldId);
+    let icon = button.querySelector("i");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
+}
+
 function resetForm(selector) {
     $(selector)[0].reset();
 

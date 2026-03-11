@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jenis Berkas')
+@section('title', 'Data Pengguna')
 
 @section('breadcrumb')
     @parent
@@ -16,22 +16,20 @@
 
                         <h5 class="mb-0">
                             <i class="fas fa-folder-open text-primary"></i>
-                            Data Jenis Berkas
+                            Data Pengguna
                         </h5>
 
-                        <button onclick="addForm(`{{ route('admin.jenis-berkas.store') }}`)" class="btn btn-sm btn-success">
+                        <button onclick="addForm(`{{ route('admin.users.store') }}`)" class="btn btn-sm btn-success">
                             <i class="fas fa-plus-circle"></i> Tambah Data
                         </button>
-
                     </div>
                 </x-slot>
                 <x-table>
                     <x-slot name="thead">
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Kode Berkas</th>
-                            <th>Jenis Berkas</th>
-                            <th>Keterangan</th>
+                            <th>Nama Pengguna</th>
+                            <th>Email</th>
                             <th>Aksi</th>
                         </tr>
                     </x-slot>
@@ -40,7 +38,7 @@
         </div>
     </div>
 
-    @include('admin.jenis_berkas.form')
+    @include('admin.users.form')
 @endsection
 
 @include('includes.datatable')
@@ -58,7 +56,7 @@
             autoWidth: false,
             responsive: true,
             ajax: {
-                url: '{{ route('admin.jenis-berkas.data') }}',
+                url: '{{ route('admin.users.data') }}',
             },
             columns: [{
                     data: 'DT_RowIndex',
@@ -67,15 +65,10 @@
                     searchable: false
                 },
                 {
-                    data: 'kode_berkas'
+                    data: 'name'
                 },
                 {
-                    data: 'nama_berkas'
-                },
-                {
-                    data: 'deskripsi',
-                    orderable: false,
-                    searchable: false
+                    data: 'email'
                 },
                 {
                     data: 'aksi',
@@ -86,16 +79,20 @@
             ]
         })
 
-        function addForm(url, title = 'Form Data Jenis Berkas') {
-            $(modal).modal('show');
-            $(`${modal} .modal-title`).text(title);
-            $(`${modal} form`).attr('action', url);
-            $(`${modal} [name=_method]`).val('post');
+        function addForm(url, title = 'Form Data Pengguna') {
+            SwalHelper.info('Menu tambah hanya digunakan untuk menambahkan data pegawai, bukan membuat akun user.')
+                .then(() => {
 
-            resetForm(`${modal} form`);
+                    $(modal).modal('show');
+                    $(`${modal} .modal-title`).text(title);
+                    $(`${modal} form`).attr('action', url);
+                    $(`${modal} [name=_method]`).val('post');
+
+                    resetForm(`${modal} form`);
+                });
         }
 
-        function editForm(url, title = 'Form Data Jenis Berkas') {
+        function editForm(url, title = 'Form Data Pengguna') {
             Swal.fire({
                 title: "Memuat...",
                 text: "Mohon tunggu sebentar...",

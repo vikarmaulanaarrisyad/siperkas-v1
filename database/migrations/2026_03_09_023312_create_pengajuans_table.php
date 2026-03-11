@@ -22,9 +22,20 @@ return new class extends Migration
             $table->enum('status', ['disetujui', 'ditolak', 'menunggu'])->default('menunggu');
             $table->timestamp('tanggal_verifikasi')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('verified_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('jenis_berkas_id')->references('id')->on('jenis_berkas')->onDelete('set null');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('verified_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('jenis_berkas_id')
+                ->references('id')
+                ->on('jenis_berkas')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
