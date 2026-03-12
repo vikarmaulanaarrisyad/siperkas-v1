@@ -66,7 +66,7 @@
                 <li class="nav-header">PENGAJUAN</li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.pengajuan.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>Semua Pengajuan</p>
                     </a>
